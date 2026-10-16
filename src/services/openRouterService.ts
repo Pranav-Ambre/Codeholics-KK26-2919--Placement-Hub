@@ -97,8 +97,12 @@ Return ONLY valid JSON matching this schema:
 {"required": ["skill1", "skill2"], "preferred": ["skill3"]}
 Do not include conversational text or markdown formatting.`;
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
+
       const response = await fetch(this.ENDPOINT, {
         method: 'POST',
+        signal: controller.signal,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${this.API_KEY}`,
@@ -115,6 +119,7 @@ Do not include conversational text or markdown formatting.`;
           max_tokens: 200 // Hard cap on output tokens
         })
       });
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         console.warn(`OpenRouter API error ${response.status}. Using deterministic fallback.`);
