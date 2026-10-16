@@ -10,13 +10,16 @@ import {
   ShieldCheck,
   RefreshCw,
   ExternalLink,
-  Info
+  Info,
+  UploadCloud
 } from 'lucide-react';
+import ResumeClaimReviewModal from '../components/ResumeClaimReviewModal';
 
 export default function ResumeStudioPage({ profile, skills, onShowToast }) {
   const [showEvidencePills, setShowEvidencePills] = useState(true);
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState('ATS Modern Clean');
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
 
   const handleGenerate = () => {
     setIsGenerating(true);
@@ -75,6 +78,14 @@ export default function ResumeStudioPage({ profile, skills, onShowToast }) {
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isGenerating ? 'animate-spin' : ''}`} />
               <span>{isGenerating ? 'Cross-Auditing...' : 'Re-Audit Resume'}</span>
+            </button>
+
+            <button
+              onClick={() => setIsClaimModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold text-violet-700 bg-violet-50 hover:bg-violet-100 border border-violet-200 transition-colors"
+            >
+              <UploadCloud className="w-3.5 h-3.5" />
+              <span>Audit Uploaded Claims</span>
             </button>
 
             <button
@@ -292,6 +303,35 @@ export default function ResumeStudioPage({ profile, skills, onShowToast }) {
           </div>
         </section>
       </div>
+
+      <ResumeClaimReviewModal
+        isOpen={isClaimModalOpen}
+        onClose={() => setIsClaimModalOpen(false)}
+        studentEvidence={[
+          {
+            evidenceId: "ev-react-1",
+            skillId: "skill-react",
+            type: "assessment",
+            title: "Proctored React SkillCheck v2",
+            score: 94,
+            status: "VERIFIED"
+          },
+          {
+            evidenceId: "ev-node-1",
+            skillId: "skill-nodejs",
+            type: "project",
+            title: "TaskFlow SaaS Micro-API",
+            status: "VERIFIED"
+          },
+          {
+            evidenceId: "ev-pg-1",
+            skillId: "skill-postgres",
+            type: "project",
+            title: "Database Optimization Project",
+            status: "NEEDS_REVIEW"
+          }
+        ]}
+      />
     </div>
   );
 }
