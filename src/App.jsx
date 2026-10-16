@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar';
 import TopNav from './components/TopNav';
 import MatchModal from './components/MatchModal';
 import AddEvidenceModal from './components/AddEvidenceModal';
+import AssessmentSimulatorModal from './components/AssessmentSimulatorModal';
 import Toast from './components/Toast';
 
 import OverviewPage from './pages/OverviewPage';
@@ -66,6 +67,7 @@ export default function App() {
   // Modals & Popups
   const [selectedMatchJob, setSelectedMatchJob] = useState(null);
   const [isAddEvidenceOpen, setIsAddEvidenceOpen] = useState(false);
+  const [isAssessmentModalOpen, setIsAssessmentModalOpen] = useState(false);
   const [toast, setToast] = useState(null);
 
   // Sync to localStorage
@@ -298,6 +300,7 @@ export default function App() {
             <EvidencePage
               skills={skills}
               onOpenAddEvidence={() => setIsAddEvidenceOpen(true)}
+              onOpenAssessment={() => setIsAssessmentModalOpen(true)}
             />
           )}
 
@@ -359,6 +362,33 @@ export default function App() {
         isOpen={isAddEvidenceOpen}
         onClose={() => setIsAddEvidenceOpen(false)}
         onAddEvidence={handleAddEvidence}
+      />
+
+      {/* Proctored Assessment Simulator Modal (Member 3) */}
+      <AssessmentSimulatorModal
+        isOpen={isAssessmentModalOpen}
+        onClose={() => setIsAssessmentModalOpen(false)}
+        onShowToast={showToast}
+        onAssessmentCompleted={(attempt) => {
+          if (attempt.passed) {
+            // Update skill status in state
+            setSkills((prev) =>
+              prev.map((s) => {
+                const skillKey = attempt.skillId.replace('skill-', '').toLowerCase();
+                if (s.skill.toLowerCase().includes(skillKey)) {
+                  return {
+                    ...s,
+                    status: 'Verified',
+                    evidenceScore: attempt.score,
+                    verificationMethod: `Proctored Assessment Benchmark (${attempt.proctoredId})`,
+                    details: `Automated testing completed with score ${attempt.score}%. Verification hash: ${attempt.proctoredId}`
+                  };
+                }
+                return s;
+              })
+            );
+          }
+        }}
       />
 
       {/* Toast Notification Container */}
