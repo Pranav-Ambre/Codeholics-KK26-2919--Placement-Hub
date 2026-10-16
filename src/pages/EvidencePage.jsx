@@ -79,13 +79,23 @@ export default function EvidencePage({ skills, onOpenAddEvidence }) {
           </p>
         </div>
 
-        <button
-          onClick={onOpenAddEvidence}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs md:text-sm font-bold text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-lg shadow-violet-600/30 transition-all transform active:scale-95 whitespace-nowrap self-start md:self-auto"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Add New Evidence</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2 self-start md:self-auto">
+          <button
+            onClick={() => onOpenAssessment ? onOpenAssessment() : onOpenAddEvidence()}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs md:text-sm font-bold text-violet-200 bg-violet-950/80 hover:bg-violet-900/90 border border-violet-700/50 shadow-md transition-all whitespace-nowrap"
+          >
+            <FileCheck2 className="w-4 h-4 text-violet-400" />
+            <span>Take Proctored Assessment</span>
+          </button>
+
+          <button
+            onClick={onOpenAddEvidence}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs md:text-sm font-bold text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 shadow-lg shadow-violet-600/30 transition-all transform active:scale-95 whitespace-nowrap"
+          >
+            <Plus className="w-4 h-4" />
+            <span>Add New Evidence</span>
+          </button>
+        </div>
       </div>
 
       {/* Disclaimers & Methodology Banner */}
