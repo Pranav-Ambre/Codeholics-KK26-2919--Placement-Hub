@@ -124,4 +124,21 @@ describe('Member 3: Evidence Engine & Core Services Unit Tests', () => {
     });
   });
 
+  describe('6. OpenRouter Token-Efficient Assistive Parser', () => {
+    it('parses JD skills with canonical validation and zero-token caching', async () => {
+      const { OpenRouterService } = await import('../services/openRouterService');
+      const jd = "Seeking a Full Stack Engineer with strong React and PostgreSQL expertise. Familiarity with TypeScript preferred.";
+      
+      const parsed = await OpenRouterService.parseJobDescription(jd);
+      expect(parsed.requiredSkills.length).toBeGreaterThan(0);
+      
+      const skillNames = parsed.requiredSkills.map(s => s.canonicalName);
+      expect(skillNames).toContain('React');
+
+      // Second call must hit the zero-token cache
+      const cached = await OpenRouterService.parseJobDescription(jd);
+      expect(cached.fromCache).toBe(true);
+    });
+  });
+
 });
