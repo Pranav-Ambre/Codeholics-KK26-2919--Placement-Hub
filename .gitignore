@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Environment variables & secrets (CRITICAL: never commit credentials)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+*.env.*
+!.env.example
+
+# Build outputs
+dist/
+dist-ssr/
+build/
+*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS & Editor
+desktop.ini
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+
+# Local Handover Notes (Never push to remote)
+MEMBER2_HANDOVER_NOTES.md
+LOCAL_HANDOVER.md
+*.sln
+*.sw?
